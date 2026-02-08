@@ -19,14 +19,6 @@ The `audit-skills` skill provides thorough security reviews of AI skills (SKILL.
 
 ## 📁 Installation
 
-### Option 0: Codex Skill Installer (GitHub)
-
-If you're using the Codex skill installer, point it at the bundled `skills/` directory:
-
-```bash
-npx skills add Tharun-Balaji/audit-skills --path skills/audit-skills
-```
-
 ### Option 1: User Skill (Recommended)
 
 For personal use or custom security audits:
