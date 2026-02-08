@@ -2,7 +2,7 @@
 
 **Report ID:** `AUDIT-[YYYYMMDD]-[SKILL-NAME]`  
 **Date:** [Current Date]  
-**Auditor:** Claude (secure-skills)  
+**Auditor:** Claude (audit-skills)  
 **Skill Version:** [Version if applicable]
 
 ---
@@ -641,7 +641,7 @@ grep -rn "<!--" .
 
 ## Sign-Off
 
-**Audit Completed By:** Claude (secure-skills)  
+**Audit Completed By:** Claude (audit-skills)  
 **Audit Date:** [Date]  
 **Report Version:** 1.0  
 **Next Review Due:** [Date based on risk level]

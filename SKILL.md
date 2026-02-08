@@ -1,6 +1,6 @@
 
 ---
-name: secure-skills
+name: audit-skills
 description: "Review, audit, and harden AI skills for security risks including prompt injection, hidden instructions, tool misuse, data exfiltration, and malicious payloads; use when analyzing SKILL.md, scripts, references, or assets for vulnerabilities and when producing remediation guidance."
 ---
 
@@ -358,7 +358,7 @@ If exploited, this vulnerability could lead to:
 
 ```
 SECURITY AUDIT REPORT: [Skill Name]
-Auditor: Claude (secure-skills)
+Auditor: Claude (audit-skills)
 Date: [Current Date]
 Skill Path: [Full path to skill]
 
