@@ -1,10 +1,10 @@
-# secure-skills: AI Skill Security Auditor
+# audit-skills: AI Skill Security Auditor
 
 A comprehensive security auditing skill for reviewing AI skills for vulnerabilities including prompt injection, hidden instructions, command injection, data exfiltration, and malicious payloads.
 
 ## 🎯 Overview
 
-The `secure-skills` skill provides thorough security reviews of AI skills (SKILL.md plus bundled resources). It identifies security risks, produces detailed findings with evidence, and delivers actionable remediation guidance.
+The `audit-skills` skill provides thorough security reviews of AI skills (SKILL.md plus bundled resources). It identifies security risks, produces detailed findings with evidence, and delivers actionable remediation guidance.
 
 ### What It Detects
 
@@ -25,13 +25,13 @@ For personal use or custom security audits:
 
 ```bash
 # Create the skill directory
-mkdir -p /mnt/skills/user/secure-skills/references
+mkdir -p /mnt/skills/user/audit-skills/references
 
 # Copy the skill files
-cp SKILL.md /mnt/skills/user/secure-skills/
-cp vulnerability-checklist.md /mnt/skills/user/secure-skills/references/
-cp report-template.md /mnt/skills/user/secure-skills/references/
-cp README.md /mnt/skills/user/secure-skills/
+cp SKILL.md /mnt/skills/user/audit-skills/
+cp vulnerability-checklist.md /mnt/skills/user/audit-skills/references/
+cp report-template.md /mnt/skills/user/audit-skills/references/
+cp README.md /mnt/skills/user/audit-skills/
 ```
 
 ### Option 2: Example Skill
@@ -40,13 +40,13 @@ For demonstration or testing:
 
 ```bash
 # Create the skill directory
-mkdir -p /mnt/skills/examples/secure-skills/references
+mkdir -p /mnt/skills/examples/audit-skills/references
 
 # Copy the skill files
-cp SKILL.md /mnt/skills/examples/secure-skills/
-cp vulnerability-checklist.md /mnt/skills/examples/secure-skills/references/
-cp report-template.md /mnt/skills/examples/secure-skills/references/
-cp README.md /mnt/skills/examples/secure-skills/
+cp SKILL.md /mnt/skills/examples/audit-skills/
+cp vulnerability-checklist.md /mnt/skills/examples/audit-skills/references/
+cp report-template.md /mnt/skills/examples/audit-skills/references/
+cp README.md /mnt/skills/examples/audit-skills/
 ```
 
 ### Option 3: Public Skill
@@ -55,13 +55,13 @@ For organization-wide deployment (requires appropriate permissions):
 
 ```bash
 # Create the skill directory
-mkdir -p /mnt/skills/public/secure-skills/references
+mkdir -p /mnt/skills/public/audit-skills/references
 
 # Copy the skill files
-cp SKILL.md /mnt/skills/public/secure-skills/
-cp vulnerability-checklist.md /mnt/skills/public/secure-skills/references/
-cp report-template.md /mnt/skills/public/secure-skills/references/
-cp README.md /mnt/skills/public/secure-skills/
+cp SKILL.md /mnt/skills/public/audit-skills/
+cp vulnerability-checklist.md /mnt/skills/public/audit-skills/references/
+cp report-template.md /mnt/skills/public/audit-skills/references/
+cp README.md /mnt/skills/public/audit-skills/
 ```
 
 ## 📂 Directory Structure
@@ -69,7 +69,7 @@ cp README.md /mnt/skills/public/secure-skills/
 After installation, your skill directory should look like this:
 
 ```
-secure-skills/
+audit-skills/
 ├── SKILL.md                          # Main skill instructions
 ├── README.md                         # This file
 └── references/
@@ -432,11 +432,11 @@ Suggestions for better detection:
 
 ### Issue: Skill not triggering
 
-**Problem:** Claude doesn't use the secure-skills automatically
+**Problem:** Claude doesn't use the audit-skills automatically
 
 **Solution:** 
 - Explicitly mention "security audit" or "vulnerabilities"
-- Reference the skill directly: "Use the secure-skills to audit..."
+- Reference the skill directly: "Use the audit-skills to audit..."
 - Ensure the skill files are in the correct directory
 
 ### Issue: Incomplete audit
@@ -513,5 +513,5 @@ This skill is designed to identify common security vulnerabilities in AI skills.
 
 ---
 
-**secure-skills v1.0** - Comprehensive AI Skill Security Auditor  
+**audit-skills v1.0** - Comprehensive AI Skill Security Auditor  
 *Protecting AI skills from vulnerabilities since 2024*
