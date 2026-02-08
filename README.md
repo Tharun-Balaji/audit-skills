@@ -19,14 +19,6 @@ The `secure-skills` skill provides thorough security reviews of AI skills (SKILL
 
 ## 📁 Installation
 
-### Option 0: Install with `npx skills add`
-
-The repository now includes a `skills/secure-skills` directory so `npx skills add` can detect the skill:
-
-```bash
-npx skills add Tharun-Balaji/audit-skills
-```
-
 ### Option 1: User Skill (Recommended)
 
 For personal use or custom security audits:
@@ -36,9 +28,9 @@ For personal use or custom security audits:
 mkdir -p /mnt/skills/user/secure-skills/references
 
 # Copy the skill files
-cp skills/secure-skills/SKILL.md /mnt/skills/user/secure-skills/
-cp skills/secure-skills/references/vulnerability-checklist.md /mnt/skills/user/secure-skills/references/
-cp skills/secure-skills/references/report-template.md /mnt/skills/user/secure-skills/references/
+cp SKILL.md /mnt/skills/user/secure-skills/
+cp vulnerability-checklist.md /mnt/skills/user/secure-skills/references/
+cp report-template.md /mnt/skills/user/secure-skills/references/
 cp README.md /mnt/skills/user/secure-skills/
 ```
 
@@ -51,9 +43,9 @@ For demonstration or testing:
 mkdir -p /mnt/skills/examples/secure-skills/references
 
 # Copy the skill files
-cp skills/secure-skills/SKILL.md /mnt/skills/examples/secure-skills/
-cp skills/secure-skills/references/vulnerability-checklist.md /mnt/skills/examples/secure-skills/references/
-cp skills/secure-skills/references/report-template.md /mnt/skills/examples/secure-skills/references/
+cp SKILL.md /mnt/skills/examples/secure-skills/
+cp vulnerability-checklist.md /mnt/skills/examples/secure-skills/references/
+cp report-template.md /mnt/skills/examples/secure-skills/references/
 cp README.md /mnt/skills/examples/secure-skills/
 ```
 
@@ -66,9 +58,9 @@ For organization-wide deployment (requires appropriate permissions):
 mkdir -p /mnt/skills/public/secure-skills/references
 
 # Copy the skill files
-cp skills/secure-skills/SKILL.md /mnt/skills/public/secure-skills/
-cp skills/secure-skills/references/vulnerability-checklist.md /mnt/skills/public/secure-skills/references/
-cp skills/secure-skills/references/report-template.md /mnt/skills/public/secure-skills/references/
+cp SKILL.md /mnt/skills/public/secure-skills/
+cp vulnerability-checklist.md /mnt/skills/public/secure-skills/references/
+cp report-template.md /mnt/skills/public/secure-skills/references/
 cp README.md /mnt/skills/public/secure-skills/
 ```
 
@@ -77,21 +69,21 @@ cp README.md /mnt/skills/public/secure-skills/
 After installation, your skill directory should look like this:
 
 ```
-skills/
-└── secure-skills/
-    ├── SKILL.md                          # Main skill instructions
-    └── references/
-        ├── vulnerability-checklist.md    # Detailed detection patterns
-        └── report-template.md            # Professional report format
+secure-skills/
+├── SKILL.md                          # Main skill instructions
+├── README.md                         # This file
+└── references/
+    ├── vulnerability-checklist.md    # Detailed detection patterns
+    └── report-template.md            # Professional report format
 ```
 
 ### File Descriptions
 
 | File | Purpose | Size |
 |------|---------|------|
-| `skills/secure-skills/SKILL.md` | Core skill instructions with comprehensive audit workflow | ~15 KB |
-| `skills/secure-skills/references/vulnerability-checklist.md` | Detailed vulnerability patterns, search commands, code examples | ~45 KB |
-| `skills/secure-skills/references/report-template.md` | Professional security audit report template | ~20 KB |
+| `SKILL.md` | Core skill instructions with comprehensive audit workflow | ~15 KB |
+| `vulnerability-checklist.md` | Detailed vulnerability patterns, search commands, code examples | ~45 KB |
+| `report-template.md` | Professional security audit report template | ~20 KB |
 | `README.md` | Documentation and installation guide | ~10 KB |
 
 ## 🚀 Usage
