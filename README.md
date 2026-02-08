@@ -29,8 +29,8 @@ mkdir -p /mnt/skills/user/secure-skills/references
 
 # Copy the skill files
 cp SKILL.md /mnt/skills/user/secure-skills/
-cp vulnerability-checklist.md /mnt/skills/user/secure-skills/references/
-cp report-template.md /mnt/skills/user/secure-skills/references/
+cp references/vulnerability-checklist.md /mnt/skills/user/secure-skills/references/
+cp references/report-template.md /mnt/skills/user/secure-skills/references/
 cp README.md /mnt/skills/user/secure-skills/
 ```
 
@@ -44,8 +44,8 @@ mkdir -p /mnt/skills/examples/secure-skills/references
 
 # Copy the skill files
 cp SKILL.md /mnt/skills/examples/secure-skills/
-cp vulnerability-checklist.md /mnt/skills/examples/secure-skills/references/
-cp report-template.md /mnt/skills/examples/secure-skills/references/
+cp references/vulnerability-checklist.md /mnt/skills/examples/secure-skills/references/
+cp references/report-template.md /mnt/skills/examples/secure-skills/references/
 cp README.md /mnt/skills/examples/secure-skills/
 ```
 
@@ -59,8 +59,8 @@ mkdir -p /mnt/skills/public/secure-skills/references
 
 # Copy the skill files
 cp SKILL.md /mnt/skills/public/secure-skills/
-cp vulnerability-checklist.md /mnt/skills/public/secure-skills/references/
-cp report-template.md /mnt/skills/public/secure-skills/references/
+cp references/vulnerability-checklist.md /mnt/skills/public/secure-skills/references/
+cp references/report-template.md /mnt/skills/public/secure-skills/references/
 cp README.md /mnt/skills/public/secure-skills/
 ```
 
@@ -82,8 +82,8 @@ secure-skills/
 | File | Purpose | Size |
 |------|---------|------|
 | `SKILL.md` | Core skill instructions with comprehensive audit workflow | ~15 KB |
-| `vulnerability-checklist.md` | Detailed vulnerability patterns, search commands, code examples | ~45 KB |
-| `report-template.md` | Professional security audit report template | ~20 KB |
+| `references/vulnerability-checklist.md` | Detailed vulnerability patterns, search commands, code examples | ~45 KB |
+| `references/report-template.md` | Professional security audit report template | ~20 KB |
 | `README.md` | Documentation and installation guide | ~10 KB |
 
 ## 🚀 Usage
