@@ -21,11 +21,20 @@ The `audit-skills` skill provides thorough security reviews of AI skills (SKILL.
 
 ### Option 0: Codex Skill Installer (GitHub)
 
-If you're using the Codex skill installer, point it at the bundled `skills/` directory:
+If you're using the Codex skill installer, point it at the repository `skills/` directory (the parent folder that contains one or more skill folders):
 
 ```bash
-npx skills add Tharun-Balaji/audit-skills --path skills/audit-skills
+npx skills add Tharun-Balaji/audit-skills --path skills
 ```
+
+### Publishing notes for skills.sh
+
+If you want this repo to be consumable by `skills.sh`/`npx skills add`:
+
+- Keep each skill in `skills/<skill-name>/`
+- Ensure each skill folder contains a valid `SKILL.md` with YAML frontmatter starting on line 1
+- Keep bundled resources inside that same skill folder (for example `skills/audit-skills/references/...`)
+- Push the branch to GitHub, then install from the GitHub repo with `--path skills`
 
 ### Option 1: User Skill (Recommended)
 
