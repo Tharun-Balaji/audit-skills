@@ -40,7 +40,4 @@ jobs:
           node-version: '20'
 
       - name: Test documented npx skills add install command
-        env:
-          REPO_SLUG: ${{ github.repository }}
-          REF_NAME: ${{ github.head_ref || github.ref_name }}
-        run: scripts/ci/test-npx-skills-add.sh "$REPO_SLUG" "$REF_NAME" "skills"
+        run: scripts/ci/test-npx-skills-add.sh "Tharun-Balaji/audit-skills" "skills"
