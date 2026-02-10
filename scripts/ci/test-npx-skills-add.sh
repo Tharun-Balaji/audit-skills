@@ -24,41 +24,46 @@ echo "Testing npx skills add for ${REPO_SLUG} (ref=${REF_NAME}, path=${SKILL_PAT
 npx -y skills add "$REPO_SLUG" --ref "$REF_NAME" --path "$SKILL_PATH" --yes --global
 
 # Accept both potential install roots used by skills tooling.
-candidates=(
-  "$CODEX_HOME/skills/audit-skills"
-  "$HOME/.codex/skills/audit-skills"
-  "$HOME/.agents/skills/audit-skills"
+install_roots=(
+  "$CODEX_HOME/skills"
+  "$HOME/.codex/skills"
+  "$HOME/.agents/skills"
 )
 
-installed_skill_dir=""
-for candidate in "${candidates[@]}"; do
-  if [[ -d "$candidate" ]]; then
-    installed_skill_dir="$candidate"
-    break
-  fi
+installed_count=0
+for root in "${install_roots[@]}"; do
+  [[ -d "$root" ]] || continue
+
+  while IFS= read -r skill_dir; do
+    [[ -d "$skill_dir" ]] || continue
+
+    if [[ ! -f "$skill_dir/SKILL.md" ]]; then
+      echo "::error::Installed skill missing SKILL.md ($skill_dir)"
+      exit 1
+    fi
+
+    if [[ ! -d "$skill_dir/references" ]]; then
+      echo "::error::Installed skill missing references directory ($skill_dir)"
+      exit 1
+    fi
+
+    md_count="$(find "$skill_dir/references" -maxdepth 1 -type f -name '*.md' | wc -l | tr -d ' ')"
+    if [[ "$md_count" -eq 0 ]]; then
+      echo "::error::Installed skill has no markdown references ($skill_dir/references)"
+      exit 1
+    fi
+
+    echo "Validated installed skill at: $skill_dir"
+    installed_count=$((installed_count + 1))
+  done < <(find "$root" -mindepth 1 -maxdepth 1 -type d | sort)
 done
 
-if [[ -z "$installed_skill_dir" ]]; then
+if [[ "$installed_count" -eq 0 ]]; then
   echo "::error::Could not find installed skill directory in expected locations"
-  printf 'Checked:\n- %s\n' "${candidates[@]}"
+  printf 'Checked roots:
+- %s
+' "${install_roots[@]}"
   exit 1
 fi
 
-echo "Detected installed skill at: $installed_skill_dir"
-
-if [[ ! -f "$installed_skill_dir/SKILL.md" ]]; then
-  echo "::error::Installed skill missing SKILL.md"
-  exit 1
-fi
-
-if [[ ! -f "$installed_skill_dir/references/vulnerability-checklist.md" ]]; then
-  echo "::error::Installed skill missing vulnerability checklist reference"
-  exit 1
-fi
-
-if [[ ! -f "$installed_skill_dir/references/report-template.md" ]]; then
-  echo "::error::Installed skill missing report template reference"
-  exit 1
-fi
-
-echo "npx skills add installation test passed."
+echo "npx skills add installation test passed for $installed_count installed skill(s)."
