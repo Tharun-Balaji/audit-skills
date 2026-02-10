@@ -49,6 +49,11 @@ for skill_path in "${skill_paths[@]}"; do
 
   # Validate referenced local markdown resources exist.
   while IFS= read -r rel_path; do
+    if [[ "$rel_path" == /* ]] || [[ "$rel_path" == *".."* ]]; then
+      echo "::error file=$skill_file::Unsafe resource path '$rel_path' (absolute/traversal paths are not allowed)"
+      exit 1
+    fi
+
     resource_path="$skill_path/$rel_path"
     if [[ ! -f "$resource_path" ]]; then
       echo "::error file=$skill_file::Referenced resource '$rel_path' does not exist"
