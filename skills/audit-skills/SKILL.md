@@ -1,4 +1,3 @@
-
 ---
 name: audit-skills
 description: "Review, audit, and harden AI skills for security risks including prompt injection, hidden instructions, tool misuse, data exfiltration, and malicious payloads; use when analyzing SKILL.md, scripts, references, or assets for vulnerabilities and when producing remediation guidance."
