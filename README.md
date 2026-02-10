@@ -19,69 +19,40 @@ The `audit-skills` skill provides thorough security reviews of AI skills (SKILL.
 
 ## 📁 Installation
 
-### Option 0: Codex Skill Installer (GitHub)
+### Optional: CLI Install from GitHub
 
-If you're using the Codex skill installer, point it at the repository `skills/` directory (the parent folder that contains one or more skill folders):
-
-```bash
-npx skills add Tharun-Balaji/audit-skills --path skills --yes --global
-```
-
-For CI/automation, you can optionally add `--yes --global` to avoid interactive prompts and target the global install path.
-
-### Publishing notes for skills.sh
-
-If you want this repo to be consumable by `skills.sh`/`npx skills add`:
-
-- Keep each skill in `skills/<skill-name>/`
-- Ensure each skill folder contains a valid `SKILL.md` with YAML frontmatter starting on line 1
-- Keep bundled resources inside that same skill folder (for example `skills/audit-skills/references/...`)
-- Push the branch to GitHub, then install from the GitHub repo with `--path skills`
-
-### Option 1: User Skill (Recommended)
-
-For personal use or custom security audits:
+If your environment supports the `skills` CLI, you can install directly from GitHub:
 
 ```bash
-# Create the skill directory
-mkdir -p /mnt/skills/user/audit-skills/references
-
-# Copy the skill files
-cp SKILL.md /mnt/skills/user/audit-skills/
-cp vulnerability-checklist.md /mnt/skills/user/audit-skills/references/
-cp report-template.md /mnt/skills/user/audit-skills/references/
-cp README.md /mnt/skills/user/audit-skills/
+npx -y skills add <owner/repo> --ref <branch-or-tag> --path skills --yes --global
 ```
 
-### Option 2: Example Skill
+### Option 1: Generic Manual Install (Tool-Independent)
 
-For demonstration or testing:
+Use this when you want a portable install flow that does not depend on any specific CLI tooling.
 
 ```bash
-# Create the skill directory
-mkdir -p /mnt/skills/examples/audit-skills/references
+# Choose your target skill root (examples: /mnt/skills/user, /mnt/skills/examples, /mnt/skills/public)
+SKILL_ROOT="${SKILL_ROOT:-/mnt/skills/user}"
+SKILL_NAME="audit-skills"
+TARGET_DIR="$SKILL_ROOT/$SKILL_NAME"
 
-# Copy the skill files
-cp SKILL.md /mnt/skills/examples/audit-skills/
-cp vulnerability-checklist.md /mnt/skills/examples/audit-skills/references/
-cp report-template.md /mnt/skills/examples/audit-skills/references/
-cp README.md /mnt/skills/examples/audit-skills/
+# Create skill folder layout
+mkdir -p "$TARGET_DIR/references"
+
+# Copy files from this repository
+cp skills/audit-skills/SKILL.md "$TARGET_DIR/"
+cp skills/audit-skills/README.md "$TARGET_DIR/"
+cp skills/audit-skills/references/vulnerability-checklist.md "$TARGET_DIR/references/"
+cp skills/audit-skills/references/report-template.md "$TARGET_DIR/references/"
+
+# Optional sanity checks
+test -f "$TARGET_DIR/SKILL.md"
+test -f "$TARGET_DIR/references/vulnerability-checklist.md"
+test -f "$TARGET_DIR/references/report-template.md"
 ```
 
-### Option 3: Public Skill
-
-For organization-wide deployment (requires appropriate permissions):
-
-```bash
-# Create the skill directory
-mkdir -p /mnt/skills/public/audit-skills/references
-
-# Copy the skill files
-cp SKILL.md /mnt/skills/public/audit-skills/
-cp vulnerability-checklist.md /mnt/skills/public/audit-skills/references/
-cp report-template.md /mnt/skills/public/audit-skills/references/
-cp README.md /mnt/skills/public/audit-skills/
-```
+This same script works for local developer machines, CI runners, and containerized environments by changing only `SKILL_ROOT`.
 
 ## 📂 Directory Structure
 
@@ -120,9 +91,17 @@ The GitHub Actions workflow (`.github/workflows/skills-installation-ci.yml`) cur
 2. **CLI installation flow validation** (`scripts/ci/test-npx-skills-add.sh`)
    - runs the documented install command non-interactively:
      `npx -y skills add <owner/repo> --ref <ref> --path skills --yes --global`
-   - installs into an isolated temporary `HOME`/`CODEX_HOME`
+   - installs into an isolated temporary home environment
    - detects installed skill across supported install roots
    - verifies installed `SKILL.md` and bundled reference files exist
+
+
+3. **Exploit-focused markdown scanning** (`scripts/ci/check-skill-exploits.sh`)
+   - scans packaged entrypoint markdown files (`SKILL.md`, optional `README.md`)
+   - blocks hidden prompt-injection cues inside HTML comments
+   - flags suspicious long base64-like payloads
+   - flags invisible/bidi Unicode control characters often used for obfuscation
+   - blocks risky pipe-to-shell snippets (`curl ... | bash`, `wget ... | sh`)
 
 This gives coverage for both **packaging correctness** and **real installer behavior** before merging to `main`.
 
