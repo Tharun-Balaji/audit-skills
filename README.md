@@ -122,6 +122,7 @@ The GitHub Actions workflow (`.github/workflows/skills-installation-ci.yml`) cur
    - verifies validator blocks absolute markdown resource paths
    - verifies validator blocks traversal markdown resource paths (`..`)
    - verifies validator blocks symlinks inside packaged skill folders
+   - verifies grep-based markdown exploit pattern detection (safe vs malicious fixtures)
 
 3. **CLI installation flow validation** (`scripts/ci/test-npx-skills-add.sh`)
    - runs the documented install command non-interactively:
