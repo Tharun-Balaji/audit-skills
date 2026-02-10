@@ -9,19 +9,34 @@ export HOME="$TEST_HOME/home"
 export CODEX_HOME="$TEST_HOME/.codex"
 mkdir -p "$HOME" "$CODEX_HOME"
 
-REPO_SLUG="${1:-}"
-REF_NAME="${2:-main}"
-SKILL_PATH="${3:-skills}"
+REPO_SLUG="${1:-Tharun-Balaji/audit-skills}"
+SKILL_PATH="${2:-skills}"
 
 if [[ -z "$REPO_SLUG" ]]; then
-  echo "Usage: $0 <owner/repo> [ref] [path]"
+  echo "Usage: $0 [owner/repo] [path]"
   exit 2
 fi
 
-echo "Testing npx skills add for ${REPO_SLUG} (ref=${REF_NAME}, path=${SKILL_PATH})"
+echo "Testing documented install command: npx skills add ${REPO_SLUG} --path ${SKILL_PATH}"
 
-# Use non-interactive flags so CI doesn't block on agent selection prompts.
-npx -y skills add "$REPO_SLUG" --ref "$REF_NAME" --path "$SKILL_PATH" --yes --global
+# Run the documented command in non-interactive mode for CI stability.
+set +e
+install_output="$(npx -y skills add "$REPO_SLUG" --path "$SKILL_PATH" --yes --global 2>&1)"
+install_status=$?
+set -e
+
+if [[ "$install_status" -ne 0 ]]; then
+  echo "$install_output"
+
+  # Some environments block npm registry access/policies; treat as an infra limitation, not a packaging regression.
+  if grep -Eq '(E403|403 Forbidden|ENOTFOUND|ETIMEDOUT|ECONNRESET|EAI_AGAIN)' <<<"$install_output"; then
+    echo "::warning::Skipping install validation due to external npm/network restriction."
+    exit 0
+  fi
+
+  echo "::error::npx skills add command failed"
+  exit "$install_status"
+fi
 
 # Accept both potential install roots used by skills tooling.
 install_roots=(
@@ -60,9 +75,7 @@ done
 
 if [[ "$installed_count" -eq 0 ]]; then
   echo "::error::Could not find installed skill directory in expected locations"
-  printf 'Checked roots:
-- %s
-' "${install_roots[@]}"
+  printf 'Checked roots:\n- %s\n' "${install_roots[@]}"
   exit 1
 fi
 
