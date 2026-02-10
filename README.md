@@ -27,6 +27,8 @@ If you're using the Codex skill installer, point it at the repository `skills/` 
 npx skills add Tharun-Balaji/audit-skills --path skills
 ```
 
+For CI/automation, you can optionally add `--yes --global` to avoid interactive prompts and target the global install path.
+
 ### Publishing notes for skills.sh
 
 If you want this repo to be consumable by `skills.sh`/`npx skills add`:
@@ -102,6 +104,27 @@ audit-skills/
 | `vulnerability-checklist.md` | Detailed vulnerability patterns, search commands, code examples | ~45 KB |
 | `report-template.md` | Professional security audit report template | ~20 KB |
 | `README.md` | Documentation and installation guide | ~10 KB |
+
+## ✅ CI Test Coverage
+
+The GitHub Actions workflow (`.github/workflows/skills-installation-ci.yml`) currently covers:
+
+1. **Skill layout validation** (`scripts/ci/validate-skills-install.sh`)
+   - `skills/` directory exists and contains at least one skill folder
+   - each skill contains `SKILL.md`
+   - YAML frontmatter starts on line 1 and has a closing `---` delimiter
+   - required `name:` field exists in frontmatter
+   - local markdown links referenced by `SKILL.md` resolve to real files
+   - skill folder can be copied into a simulated install root
+
+2. **CLI installation flow validation** (`scripts/ci/test-npx-skills-add.sh`)
+   - runs the documented install command non-interactively:
+     `npx -y skills add <owner/repo> --ref <ref> --path skills --yes --global`
+   - installs into an isolated temporary `HOME`/`CODEX_HOME`
+   - detects installed skill across supported install roots
+   - verifies installed `SKILL.md` and bundled reference files exist
+
+This gives coverage for both **packaging correctness** and **real installer behavior** before merging to `main`.
 
 ## 🚀 Usage
 
