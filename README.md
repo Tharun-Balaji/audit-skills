@@ -24,8 +24,10 @@ The `audit-skills` skill provides thorough security reviews of AI skills (SKILL.
 If your environment supports the `skills` CLI, you can install directly from GitHub:
 
 ```bash
-npx -y skills add <owner/repo> --ref <branch-or-tag> --path skills --yes --global
+npx skills add <owner/repo> --ref <branch-or-tag> --path skills
 ```
+
+For non-interactive automation, you may optionally add `--yes` and/or `--global` based on your environment and policy requirements.
 
 ### Option 1: Generic Manual Install (Tool-Independent)
 
@@ -89,8 +91,8 @@ The GitHub Actions workflow (`.github/workflows/skills-installation-ci.yml`) cur
    - skill folder can be copied into a simulated install root
 
 2. **CLI installation flow validation** (`scripts/ci/test-npx-skills-add.sh`)
-   - runs the documented install command non-interactively:
-     `npx -y skills add <owner/repo> --ref <ref> --path skills --yes --global`
+   - uses the same base install command, with CI-only non-interactive flags:
+     `npx skills add <owner/repo> --ref <ref> --path skills [--yes] [--global]`
    - installs into an isolated temporary home environment
    - detects installed skill across supported install roots
    - verifies installed `SKILL.md` and bundled reference files exist
