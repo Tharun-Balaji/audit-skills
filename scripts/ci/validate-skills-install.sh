@@ -42,24 +42,34 @@ for skill_path in "${skill_paths[@]}"; do
     exit 1
   fi
 
-  if ! grep -q '^name:' "$skill_file"; then
+  if ! awk 'NR==1 { next } /^---$/ { exit(found ? 0 : 1) } /^name:[[:space:]]*[^[:space:]].*/ { found=1 } END { exit(found ? 0 : 1) }' "$skill_file"; then
     echo "::error file=$skill_file::Frontmatter missing required 'name' field"
     exit 1
   fi
 
-  # Validate referenced local markdown resources exist.
-  while IFS= read -r rel_path; do
-    if [[ "$rel_path" == /* ]] || [[ "$rel_path" == *".."* ]]; then
-      echo "::error file=$skill_file::Unsafe resource path '$rel_path' (absolute/traversal paths are not allowed)"
-      exit 1
-    fi
+  # Validate local markdown links resolve from every markdown file in the skill.
+  while IFS= read -r markdown_file; do
+    while IFS= read -r rel_path; do
+      # Ignore anchors and external links.
+      [[ "$rel_path" =~ ^# ]] && continue
+      [[ "$rel_path" =~ ^https?:// ]] && continue
 
-    resource_path="$skill_path/$rel_path"
-    if [[ ! -f "$resource_path" ]]; then
-      echo "::error file=$skill_file::Referenced resource '$rel_path' does not exist"
-      exit 1
-    fi
-  done < <(sed -n 's|.*\](\([^)]*\.md\)).*|\1|p' "$skill_file" | rg -v '^(https?://|#)' || true)
+      if [[ "$rel_path" == /* ]] || [[ "$rel_path" == *".."* ]]; then
+        echo "::error file=$markdown_file::Unsafe markdown link '$rel_path' (absolute/traversal paths are not allowed)"
+        exit 1
+      fi
+
+      clean_path="${rel_path%%#*}"
+      clean_path="${clean_path%%\?*}"
+      [[ -z "$clean_path" ]] && continue
+
+      resource_path="$(cd "$(dirname "$markdown_file")" && realpath -m "$clean_path")"
+      if [[ "$resource_path" != "$skill_path"/* ]] || [[ ! -f "$resource_path" ]]; then
+        echo "::error file=$markdown_file::Referenced resource '$rel_path' does not exist within skill folder"
+        exit 1
+      fi
+    done < <(sed -n 's|.*\](\([^)]*\.md\)).*|\1|p' "$markdown_file" || true)
+  done < <(find "$skill_path" -type f -name '*.md' | sort)
 
   # Simulate a local install by copying the skill folder into an installation root.
   install_root="$TMP_DIR/mnt/skills/user"
