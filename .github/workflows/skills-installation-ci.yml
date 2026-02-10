@@ -1,0 +1,35 @@
+name: Skills Installation CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  validate-installation-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate skill installation layout script
+        run: scripts/ci/validate-skills-install.sh
+
+  test-skills-cli-install:
+    runs-on: ubuntu-latest
+    needs: validate-installation-script
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Test documented npx skills add install command
+        env:
+          REPO_SLUG: ${{ github.repository }}
+          REF_NAME: ${{ github.head_ref || github.ref_name }}
+        run: scripts/ci/test-npx-skills-add.sh "$REPO_SLUG" "$REF_NAME" "skills"
