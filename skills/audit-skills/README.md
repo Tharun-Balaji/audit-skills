@@ -24,7 +24,7 @@ The `audit-skills` skill provides thorough security reviews of AI skills (SKILL.
 If you're installing from this repository, use:
 
 ```bash
-npx skills add Tharun-Balaji/audit-skills --path skills
+npx skills add Tharun-Balaji/audit-skills --path skills --yes --global
 ```
 
 For CI/automation, you can optionally add `--yes --global` to avoid interactive prompts and target the global install path.
